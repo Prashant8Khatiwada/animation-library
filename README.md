@@ -1,17 +1,17 @@
 # @yourorg/motion
 
-A lightweight, modular, and production-ready React/Next.js animation library built on Framer Motion.
+A lightweight, component-based animation library for React/Next.js built on Framer Motion.
 
 ## ✨ Features
 
-🪶 **Lightweight** - Tree-shakeable, only bundle what you use  
-🎨 **132 Animations** - Comprehensive collection across 14 categories  
-🧩 **Modular** - Clean architecture with separated concerns  
-⚡ **SSR-Safe** - Full Next.js App Router compatibility  
-🎯 **Unique Identity** - Custom easing curves and motion signatures  
+🪶 **Lightweight** - Tree-shakeable, ~0.5-1KB per component  
+🎨 **132+ Components** - Ready-to-use animation components  
+🧩 **Component-Based API** - Simple `<FadeIn>` syntax  
+⚡ **SSR-Safe** - Full Next.js App Router support  
+🎯 **Customizable** - `options` prop for runtime control  
 ♿ **Accessible** - Built-in reduced motion support  
-📦 **Zero Dependencies** - Only peer dependencies (Framer Motion)  
-🔒 **TypeScript** - Full type safety and inference  
+📦 **Zero Config** - Works out of the box  
+🔒 **TypeScript** - Full type safety
 
 ## 📦 Installation
 
@@ -26,43 +26,89 @@ pnpm add @yourorg/motion framer-motion
 ## 🚀 Quick Start
 
 ```tsx
-import { FadeInUp } from '@yourorg/motion/animations'
+import { FadeIn, SlideUp, HoverLift } from '@yourorg/motion/animations'
 
-function Component() {
+function MyComponent() {
   return (
-    <FadeInUp
-      whileHover="hover"
-      whileTap="tap"
-    >
-      Animated Content
-    </FadeInUp>
+    <div>
+      <FadeIn>
+        <h1>Fades in smoothly</h1>
+      </FadeIn>
+
+      <SlideUp options={{ duration: 0.8, delay: 0.2 }}>
+        <p>Slides up with custom timing</p>
+      </SlideUp>
+
+      <HoverLift>
+        <button>Lifts on hover</button>
+      </HoverLift>
+    </div>
   )
 }
 ```
 
-## 🎯 Animation Categories
+## 🎯 Core Concepts
 
-### 1. Entrance Animations (20)
-Perfect for content appearing on screen with smooth, welcoming transitions.
+### Component-Based API
+
+Every animation is a React component that wraps your content:
 
 ```tsx
-import { 
+<AnimationComponent options={{ duration: 0.5 }}>
+  {children}
+</AnimationComponent>
+```
+
+### Options Prop
+
+Customize animations at runtime:
+
+```tsx
+<FadeIn options={{
+  duration: 1.5,      // Animation duration in seconds
+  delay: 0.3,         // Delay before animation starts
+  ease: [0.4, 0, 0.2, 1],  // Custom easing curve
+  type: 'spring',     // 'tween' | 'spring'
+  stiffness: 100,     // Spring stiffness
+  damping: 10         // Spring damping
+}}>
+  <div>Custom animated content</div>
+</FadeIn>
+```
+
+### All Framer Motion Props
+
+Pass any Framer Motion prop directly:
+
+```tsx
+<SlideUp
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="my-class"
+  style={{ background: 'white' }}
+>
+  Full Framer Motion support
+</SlideUp>
+```
+
+## 📚 Animation Components
+
+### Entrance Animations (20)
+
+```tsx
+import {
   FadeIn, FadeInSoft, FadeInSharp,
   SlideUp, SlideDown, SlideLeft, SlideRight,
   SlideUpSoft, SlideRightLong,
   ScaleIn, ScaleInSoft, ZoomIn,
   BlurIn, RotateIn, FlipInX, FlipInY,
-  PopIn, DropIn, GrowIn, RevealClip 
+  PopIn, DropIn, GrowIn, RevealClip
 } from '@yourorg/motion/animations'
 
-// Usage
-<SlideUp>
-  <h1>Welcome!</h1>
-</SlideUp>
+<FadeIn><h1>Welcome!</h1></FadeIn>
 ```
 
-### 2. Exit Animations (11)
-Graceful exits for content leaving the viewport.
+### Exit Animations (11)
 
 ```tsx
 import {
@@ -72,8 +118,7 @@ import {
 } from '@yourorg/motion/animations'
 ```
 
-### 3. Hover & Tap Animations (13)
-Interactive animations for user engagement.
+### Hover & Tap Interactions (13)
 
 ```tsx
 import {
@@ -83,14 +128,12 @@ import {
   TapShrink, TapBounce, TapRotate
 } from '@yourorg/motion/animations'
 
-// Usage
 <HoverLift>
-  <button>Click Me</button>
+  <button>Hover me!</button>
 </HoverLift>
 ```
 
-### 4. Loop Animations (11)
-Continuous animations for ambient motion.
+### Loop Animations (11)
 
 ```tsx
 import {
@@ -100,14 +143,12 @@ import {
   PulseGlow, OscillateX, OscillateY
 } from '@yourorg/motion/animations'
 
-// Usage
 <Float>
-  <div>Floating Element</div>
+  <div>Continuously floating</div>
 </Float>
 ```
 
-### 5. List & Stagger Animations (11)
-Sequential reveals for lists and grids.
+### List & Stagger (11)
 
 ```tsx
 import {
@@ -117,7 +158,6 @@ import {
   CascadeFade, CascadeSlide
 } from '@yourorg/motion/animations'
 
-// Usage
 <StaggerContainer>
   <SlideItemUp>Item 1</SlideItemUp>
   <SlideItemUp>Item 2</SlideItemUp>
@@ -125,8 +165,7 @@ import {
 </StaggerContainer>
 ```
 
-### 6. Card Animations (10)
-Specialized animations for card components.
+### Card Animations (10)
 
 ```tsx
 import {
@@ -136,8 +175,7 @@ import {
 } from '@yourorg/motion/animations'
 ```
 
-### 7. Button Animations (8)
-Micro-interactions for buttons.
+### Button Animations (8)
 
 ```tsx
 import {
@@ -147,8 +185,7 @@ import {
 } from '@yourorg/motion/animations'
 ```
 
-### 8. Modal & Overlay Animations (8)
-Transitions for modals, sheets, and overlays.
+### Modal & Overlay (8)
 
 ```tsx
 import {
@@ -158,8 +195,7 @@ import {
 } from '@yourorg/motion/animations'
 ```
 
-### 9. Page Transitions (8)
-Full-page and section transitions.
+### Page Transitions (8)
 
 ```tsx
 import {
@@ -169,98 +205,80 @@ import {
 } from '@yourorg/motion/animations'
 ```
 
-### 10. Hero & Banner Animations (7)
-Dramatic animations for hero sections.
+### Other Categories
+
+- **Hero/Banner (7)**: `HeroFade`, `HeroRise`, `HeroTextReveal`, etc.
+- **Icons (8)**: `IconSpin`, `IconPop`, `IconShake`, etc.
+- **Forms (6)**: `InputFocusGlow`, `CheckboxScale`, `ToggleSlide`, etc.
+- **Images (6)**: `ImageZoomOnHover`, `ImageTilt`, `ImageRevealMask`, etc.
+- **Loaders (5)**: `LoaderSpin`, `LoaderPulse`, `LoaderBounce`, etc.
+
+## 🎮 Interactive Components
+
+Physics-based interactive animations:
 
 ```tsx
 import {
-  HeroFade, HeroRise, HeroTextReveal,
-  HeroImageFloat, HeroScaleIn,
-  HeroStagger, HeroShine
-} from '@yourorg/motion/animations'
+  Magnetic, Tilt3D, ElasticScale, DraggableSnap,
+  Shake, HoverGlowEffect, CursorFollow,
+  ScrollReveal, Orbit, WaveList
+} from '@yourorg/motion/interactive'
+
+<Magnetic>
+  <div>Sticks to cursor</div>
+</Magnetic>
+
+<Tilt3D>
+  <img src="card.jpg" alt="3D tilt effect" />
+</Tilt3D>
 ```
 
-### 11. Icon Animations (8)
-Micro-interactions for icons.
+## 🎨 Presets & Hooks
 
-```tsx
-import {
-  IconSpin, IconPop, IconShake, IconBlink,
-  IconHoverColor, IconPulse, IconBounce,
-  IconRotateHover
-} from '@yourorg/motion/animations'
-```
-
-### 12. Form & Input Animations (6)
-Interactions for form elements.
-
-```tsx
-import {
-  InputFocusGlow, InputSlideIn, InputErrorShake,
-  LabelFloat, CheckboxScale, ToggleSlide
-} from '@yourorg/motion/animations'
-```
-
-### 13. Image Animations (6)
-Effects for image reveals and interactions.
-
-```tsx
-import {
-  ImageFadeIn, ImageZoomOnHover, ImageParallaxFloat,
-  ImageTilt, ImageRevealMask, ImageLift
-} from '@yourorg/motion/animations'
-```
-
-### 14. Loader Animations (5)
-Loading indicators and spinners.
-
-```tsx
-import {
-  LoaderPulse, LoaderSpin, LoaderBounce,
-  LoaderStretch, LoaderWave
-} from '@yourorg/motion/animations'
-```
-
-## 🎨 Custom Easings
-
-Use our curated easing curves for consistent motion feel:
+### Custom Easings
 
 ```tsx
 import { easings } from '@yourorg/motion/presets'
 
-const customVariant = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: easings.softOvershoot, // smooth, bounce, snap, decelerate, etc.
-    },
-  },
-}
+<FadeIn options={{ ease: easings.softOvershoot }}>
+  Custom easing
+</FadeIn>
+
+// Available: smooth, softOvershoot, bounce, snap, decelerate, accelerate, standard
 ```
 
-**Available easings**: `smooth`, `softOvershoot`, `bounce`, `snap`, `decelerate`, `accelerate`, `standard`
-
-## ♿ Accessibility
-
-All animations respect `prefers-reduced-motion`:
+### Spring Configurations
 
 ```tsx
-import { useReducedMotion } from '@yourorg/motion'
+import { springs } from '@yourorg/motion/presets'
+
+<SlideUp options={springs.bouncy}>
+  Bouncy animation
+</SlideUp>
+
+// Available: gentle, bouncy, snappy, slow
+```
+
+### Accessibility Hook
+
+```tsx
+import { useReducedMotion } from '@yourorg/motion/hooks'
 
 function Component() {
   const prefersReduced = useReducedMotion()
-  const duration = prefersReduced ? 0.01 : 0.5
   
-  return <motion.div animate={{ opacity: 1 }} transition={{ duration }} />
+  return (
+    <FadeIn options={{ duration: prefersReduced ? 0.01 : 0.5 }}>
+      Respects user preferences
+    </FadeIn>
+  )
 }
 ```
 
-## 🎯 Scroll-Triggered Animations
+### Viewport Detection
 
 ```tsx
-import { useInView } from '@yourorg/motion'
+import { useInView } from '@yourorg/motion/hooks'
 import { useRef } from 'react'
 
 function Component() {
@@ -268,86 +286,96 @@ function Component() {
   const isInView = useInView(ref, { threshold: 0.5, once: true })
   
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-    >
-      Content
-    </motion.div>
+    <div ref={ref}>
+      <FadeIn animate={isInView ? "visible" : "hidden"}>
+        Animates when scrolled into view
+      </FadeIn>
+    </div>
   )
 }
 ```
 
-## 📖 Advanced Usage
+## 🔧 Advanced Usage
 
 ### Combining Animations
 
 ```tsx
-import { SlideUp } from '@yourorg/motion/animations'
-
 <SlideUp
-  whileInView="visible"
   options={{ duration: 0.8 }}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
 >
-  Content
+  Entrance + Hover + Tap
 </SlideUp>
 ```
 
-### Custom Timing with Options
+### Custom Element Type
 
 ```tsx
-import { FadeIn } from '@yourorg/motion/animations'
-
-<FadeIn options={{ duration: 1.5, delay: 0.2 }}>
-  <div>Custom timed content</div>
+<FadeIn as="section" className="hero">
+  Renders as a section element
 </FadeIn>
 ```
 
-### Spring Physics
+### Page Transitions (Next.js)
 
 ```tsx
-import { springs } from '@yourorg/motion/presets'
+import { AnimatePresence } from 'framer-motion'
+import { PageFade } from '@yourorg/motion/animations'
 
-<motion.div
-  initial={{ scale: 0 }}
-  animate={{ scale: 1 }}
-  transition={springs.bouncy}
-/>
+export default function Layout({ children }) {
+  const pathname = usePathname()
+  
+  return (
+    <AnimatePresence mode="wait">
+      <PageFade key={pathname}>
+        {children}
+      </PageFade>
+    </AnimatePresence>
+  )
+}
+```
+
+### Creating Custom Animations
+
+```tsx
+import { createAnimation } from '@yourorg/motion/utils'
+
+const MyCustomAnimation = createAnimation(
+  'MyCustomAnimation',
+  {
+    hidden: { opacity: 0, rotate: -180 },
+    visible: { opacity: 1, rotate: 0 }
+  },
+  { duration: 1, type: 'spring' }
+)
+
+<MyCustomAnimation>
+  Custom animation
+</MyCustomAnimation>
 ```
 
 ## 📊 Bundle Size
 
+- **Full library**: ~14-16KB gzipped
 - **Single animation**: ~0.5-1KB
-- **Full library**: ~14KB gzipped
-- **With hooks & presets**: ~16KB gzipped
+- **Tree-shakeable**: Only bundle what you use
+- **No runtime overhead**: Components are lightweight wrappers
 
-All animations are tree-shakeable - only import what you use!
+## 🌐 Next.js Support
 
-## 🔧 TypeScript
-
-Full TypeScript support with type inference:
+All components work seamlessly with Next.js:
 
 ```tsx
-import type { Variants } from '@yourorg/motion'
-
-const myVariant: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-}
-```
-
-## 🌐 SSR & Next.js
-
-Works seamlessly with Next.js App Router and Pages Router. All components are marked with `'use client'`.
-
-```tsx
+// app/page.tsx
 import { FadeIn } from '@yourorg/motion/animations'
 
-function Page() {
+export default function Page() {
   return <FadeIn><h1>Next.js Page</h1></FadeIn>
 }
 ```
+
+Components are already marked with `'use client'` so you don't need to add it yourself.
 
 ## 📚 Requirements
 
@@ -369,8 +397,8 @@ Built with ❤️ using [Framer Motion](https://www.framer.com/motion/)
 
 ---
 
-**Total Animations**: 132 across 14 categories  
-**Bundle Size**: ~14KB gzipped (full library)  
+**Total**: 142 components (132 animations + 10 interactive)  
+**Bundle**: ~14KB gzipped  
 **TypeScript**: 100% type-safe  
-**SSR-Safe**: ✅  
-**Accessibility**: Built-in reduced motion support
+**SSR**: ✅ Next.js compatible  
+**Accessibility**: ✅ Reduced motion support
