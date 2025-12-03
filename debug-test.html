@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "framer-motion": "https://esm.sh/framer-motion@10.16.16"
+      }
+    }
+  </script>
+    <style>
+        body {
+            font-family: system-ui;
+            margin: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        #root {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .error {
+            background: red;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">Loading...</div>
+    <div id="errors"></div>
+
+    <script type="module">
+        window.onerror = function (msg, url, line, col, error) {
+            document.getElementById('errors').innerHTML += `
+        <div class="error">
+          <strong>Error:</strong> ${msg}<br>
+          <strong>Line:</strong> ${line}<br>
+          <strong>Details:</strong> ${error}
+        </div>
+      `;
+            return false;
+        };
+
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import { motion } from 'framer-motion';
+
+        console.log('React loaded:', React);
+        console.log('ReactDOM loaded:', ReactDOM);
+        console.log('motion loaded:', motion);
+
+        function Test() {
+            return React.createElement('div', { style: { padding: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px' } },
+                React.createElement('h1', null, '✅ React is Working!'),
+                React.createElement('p', null, 'All imports loaded successfully.'),
+                React.createElement(motion.div, {
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { duration: 0.5 },
+                    style: { marginTop: '20px', padding: '20px', background: 'rgba(255,255,255,0.2)', borderRadius: '8px' }
+                }, 'Framer Motion is also working!')
+            );
+        }
+
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(Test));
+            console.log('App rendered successfully!');
+        } catch (error) {
+            document.getElementById('errors').innerHTML += `
+        <div class="error">
+          <strong>Render Error:</strong> ${error.message}<br>
+          <strong>Stack:</strong> ${error.stack}
+        </div>
+      `;
+            console.error('Render error:', error);
+        }
+    </script>
+</body>
+
+</html>
