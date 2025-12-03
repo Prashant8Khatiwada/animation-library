@@ -1,57 +1,89 @@
-# @yourorg/motion
+# react-animation-kit
 
-A lightweight, component-based animation library for React/Next.js built on Framer Motion.
+<div align="center">
 
-## ✨ Features
+🎨 **Production-ready React animation library with 142 components**
 
-🪶 **Lightweight** - Tree-shakeable, ~0.5-1KB per component  
-🎨 **132+ Components** - Ready-to-use animation components  
-🧩 **Component-Based API** - Simple `<FadeIn>` syntax  
-⚡ **SSR-Safe** - Full Next.js App Router support  
-🎯 **Customizable** - `options` prop for runtime control  
-♿ **Accessible** - Built-in reduced motion support  
-📦 **Zero Config** - Works out of the box  
-🔒 **TypeScript** - Full type safety
+[![npm version](https://img.shields.io/npm/v/react-animation-kit.svg?style=flat-square)](https://www.npmjs.com/package/react-animation-kit)
+[![npm downloads](https://img.shields.io/npm/dm/react-animation-kit.svg?style=flat-square)](https://www.npmjs.com/package/react-animation-kit)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/react-animation-kit?style=flat-square)](https://bundlephobia.com/package/react-animation-kit)
+[![license](https://img.shields.io/npm/l/react-animation-kit.svg?style=flat-square)](https://github.com/Prashant8Khatiwada/animation-library/blob/main/LICENSE)
+[![typescript](https://img.shields.io/badge/TypeScript-Ready-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
+
+*Lightweight · Tree-shakeable · SSR-safe · Customizable · Built on Framer Motion*
+
+[Live Demo](http://localhost:3000/playground.html) · [Documentation](#-documentation) · [NPM](https://www.npmjs.com/package/react-animation-kit)
+
+</div>
+
+---
+
+## ✨ Why react-animation-kit?
+
+The **easiest** way to add beautiful animations to your React app. No complex configuration, no learning curve - just import and use.
+
+```tsx
+import { FadeIn, SlideUp, HoverLift } from 'react-animation-kit/animations'
+
+<FadeIn><h1>Hello World</h1></FadeIn>
+```
+
+### Features
+
+- 🪶 **Lightweight** - Only ~0.5-1KB per component
+- 🎨 **142 Components** - Entrance, exit, hover, loops, and more
+- 🧩 **Component-Based** - Clean `<FadeIn>` API, not complex variants
+- ⚡ **SSR-Safe** - Works with Next.js App Router out of the box
+- 🎯 **Customizable** - Runtime control via `options` prop
+- ♿ **Accessible** - Built-in reduced motion support
+- 📦 **Tree-shakeable** - Only bundle what you use
+- 🔒 **TypeScript** - 100% type-safe with full IntelliSense
+- 🌍 **Production-Ready** - Battle-tested, optimized, documented
 
 ## 📦 Installation
 
 ```bash
-npm install @yourorg/motion framer-motion
+npm install react-animation-kit framer-motion
 # or
-yarn add @yourorg/motion framer-motion
+yarn add react-animation-kit framer-motion
 # or
-pnpm add @yourorg/motion framer-motion
+pnpm add react-animation-kit framer-motion
 ```
 
 ## 🚀 Quick Start
 
 ```tsx
-import { FadeIn, SlideUp, HoverLift } from '@yourorg/motion/animations'
+import { FadeIn, SlideUp, HoverLift } from 'react-animation-kit/animations'
 
-function MyComponent() {
+function App() {
   return (
     <div>
+      {/* Entrance animation */}
       <FadeIn>
-        <h1>Fades in smoothly</h1>
+        <h1>Welcome!</h1>
       </FadeIn>
 
+      {/* Custom timing */}
       <SlideUp options={{ duration: 0.8, delay: 0.2 }}>
         <p>Slides up with custom timing</p>
       </SlideUp>
 
+      {/* Interactive hover */}
       <HoverLift>
-        <button>Lifts on hover</button>
+        <button>Hover me</button>
       </HoverLift>
     </div>
   )
 }
 ```
 
+That's it! No `motion.div`, no `variants`, no `initial`/`animate` props. Just wrap and go.
+
 ## 🎯 Core Concepts
 
-### Component-Based API
+### Simple Component API
 
-Every animation is a React component that wraps your content:
+Every animation is a React component:
 
 ```tsx
 <AnimationComponent options={{ duration: 0.5 }}>
@@ -59,96 +91,97 @@ Every animation is a React component that wraps your content:
 </AnimationComponent>
 ```
 
-### Options Prop
+### Runtime Customization
 
-Customize animations at runtime:
+Use the `options` prop to customize any animation:
 
 ```tsx
 <FadeIn options={{
-  duration: 1.5,      // Animation duration in seconds
-  delay: 0.3,         // Delay before animation starts
-  ease: [0.4, 0, 0.2, 1],  // Custom easing curve
-  type: 'spring',     // 'tween' | 'spring'
-  stiffness: 100,     // Spring stiffness
+  duration: 1.5,      // Animation duration
+  delay: 0.3,         // Delay before start
+  ease: [0.4, 0, 0.2, 1],  // Custom easing
+  type: 'spring',     // Animation type
+  stiffness: 100,     // Spring physics
   damping: 10         // Spring damping
 }}>
-  <div>Custom animated content</div>
+  <div>Customized animation</div>
 </FadeIn>
 ```
 
-### All Framer Motion Props
+### Full Framer Motion Support
 
-Pass any Framer Motion prop directly:
+Pass any Framer Motion props:
 
 ```tsx
 <SlideUp
   whileHover={{ scale: 1.05 }}
   whileTap={{ scale: 0.95 }}
   className="my-class"
-  style={{ background: 'white' }}
 >
-  Full Framer Motion support
+  Full Framer Motion compatibility
 </SlideUp>
 ```
 
-## 📚 Animation Components
+## 📚 Available Components
 
-### Entrance Animations (20)
+### 🎭 Entrance Animations (20)
+
+Perfect for content appearing on screen:
 
 ```tsx
 import {
   FadeIn, FadeInSoft, FadeInSharp,
   SlideUp, SlideDown, SlideLeft, SlideRight,
-  SlideUpSoft, SlideRightLong,
-  ScaleIn, ScaleInSoft, ZoomIn,
-  BlurIn, RotateIn, FlipInX, FlipInY,
-  PopIn, DropIn, GrowIn, RevealClip
-} from '@yourorg/motion/animations'
-
-<FadeIn><h1>Welcome!</h1></FadeIn>
+  ScaleIn, ZoomIn, BlurIn, RotateIn,
+  FlipInX, FlipInY, PopIn, DropIn, GrowIn,
+  RevealClip, SlideUpSoft, SlideRightLong, ScaleInSoft
+} from 'react-animation-kit/animations'
 ```
 
-### Exit Animations (11)
+### 🚪 Exit Animations (11)
+
+Graceful exits:
 
 ```tsx
 import {
   FadeOut, FadeOutFast, ZoomOut, ScaleDown,
   SlideOutLeft, SlideOutRight, SlideOutUp, SlideOutDown,
   RotateOut, FlipOutX, CollapseOut
-} from '@yourorg/motion/animations'
+} from 'react-animation-kit/animations'
 ```
 
-### Hover & Tap Interactions (13)
+### 🖱️ Hover & Tap (13)
+
+Interactive micro-interactions:
 
 ```tsx
 import {
-  HoverLift, HoverDip, HoverScale, HoverScaleSoft,
-  HoverTilt, HoverRotate, HoverGlow, HoverShadow,
-  HoverPulse, HoverFloat,
+  HoverLift, HoverDip, HoverScale, HoverTilt,
+  HoverRotate, HoverGlow, HoverShadow, HoverPulse,
   TapShrink, TapBounce, TapRotate
-} from '@yourorg/motion/animations'
+} from 'react-animation-kit/animations'
 
-<HoverLift>
-  <button>Hover me!</button>
-</HoverLift>
+<HoverLift><button>Hover me</button></HoverLift>
 ```
 
-### Loop Animations (11)
+### ♾️ Loop Animations (11)
+
+Continuous ambient motion:
 
 ```tsx
 import {
   Float, FloatWide, FloatSlow,
-  Breath, BreathSlow,
-  Wiggle, ShakeLoop, BounceLoop,
-  PulseGlow, OscillateX, OscillateY
-} from '@yourorg/motion/animations'
+  Breath, BreathSlow, Wiggle,
+  ShakeLoop, BounceLoop, PulseGlow,
+  OscillateX, OscillateY
+} from 'react-animation-kit/animations'
 
-<Float>
-  <div>Continuously floating</div>
-</Float>
+<Float><div>Floating element</div></Float>
 ```
 
-### List & Stagger (11)
+### 📋 List & Stagger (11)
+
+Sequential reveals:
 
 ```tsx
 import {
@@ -156,7 +189,7 @@ import {
   FadeItem, SlideItemUp, SlideItemRight,
   ClipItemReveal, ScaleItem, SpringItem,
   CascadeFade, CascadeSlide
-} from '@yourorg/motion/animations'
+} from 'react-animation-kit/animations'
 
 <StaggerContainer>
   <SlideItemUp>Item 1</SlideItemUp>
@@ -165,92 +198,59 @@ import {
 </StaggerContainer>
 ```
 
-### Card Animations (10)
+### 🎴 Specialized Components
+
+- **Cards** (10): `CardPop`, `CardFlip`, `CardHoverGlow`, `CardSwipeIn`...
+- **Buttons** (8): `ButtonTap`, `ButtonHoverPop`, `ButtonGlow`, `ButtonRipple`...
+- **Modals** (8): `ModalFadeIn`, `ModalSlideUp`, `OverlayFade`, `SheetSlideUp`...
+- **Pages** (8): `PageFade`, `PageSlideLeft`, `PageSwap`, `PagePush`...
+- **Heroes** (7): `HeroFade`, `HeroRise`, `HeroTextReveal`, `HeroStagger`...
+- **Icons** (8): `IconSpin`, `IconPop`, `IconPulse`, `IconBounce`...
+- **Forms** (6): `InputFocusGlow`, `CheckboxScale`, `ToggleSlide`...
+- **Images** (6): `ImageZoomOnHover`, `ImageTilt`, `ImageRevealMask`...
+- **Loaders** (5): `LoaderSpin`, `LoaderPulse`, `LoaderBounce`...
+
+## 🎮 Interactive Physics Components
+
+Advanced physics-based interactions:
 
 ```tsx
 import {
-  CardPop, CardFloat, CardHoverGlow, CardHoverLift,
-  CardFlip, CardRevealUp, CardSwipeIn, CardSwipeOut,
-  CardPress, CardPulse
-} from '@yourorg/motion/animations'
-```
-
-### Button Animations (8)
-
-```tsx
-import {
-  ButtonTap, ButtonHoverPop, ButtonHoverArrow,
-  ButtonSlideBg, ButtonGlow, ButtonShake,
-  ButtonRipple, ButtonExpand
-} from '@yourorg/motion/animations'
-```
-
-### Modal & Overlay (8)
-
-```tsx
-import {
-  ModalFadeIn, ModalScaleIn, ModalSlideUp, ModalPopIn,
-  OverlayFade, OverlayBlurIn,
-  SheetSlideUp, SheetSlideDown
-} from '@yourorg/motion/animations'
-```
-
-### Page Transitions (8)
-
-```tsx
-import {
-  PageFade, PageSlideLeft, PageSlideRight,
-  PageScaleIn, PageReveal, PageBlurIn,
-  PageSwap, PagePush
-} from '@yourorg/motion/animations'
-```
-
-### Other Categories
-
-- **Hero/Banner (7)**: `HeroFade`, `HeroRise`, `HeroTextReveal`, etc.
-- **Icons (8)**: `IconSpin`, `IconPop`, `IconShake`, etc.
-- **Forms (6)**: `InputFocusGlow`, `CheckboxScale`, `ToggleSlide`, etc.
-- **Images (6)**: `ImageZoomOnHover`, `ImageTilt`, `ImageRevealMask`, etc.
-- **Loaders (5)**: `LoaderSpin`, `LoaderPulse`, `LoaderBounce`, etc.
-
-## 🎮 Interactive Components
-
-Physics-based interactive animations:
-
-```tsx
-import {
-  Magnetic, Tilt3D, ElasticScale, DraggableSnap,
-  Shake, HoverGlowEffect, CursorFollow,
-  ScrollReveal, Orbit, WaveList
-} from '@yourorg/motion/interactive'
+  Magnetic,          // Sticks to cursor
+  Tilt3D,           // 3D parallax tilt
+  ElasticScale,     // Bouncy scale on hover
+  DraggableSnap,    // Drag and snap back
+  Shake,            // Click to shake
+  HoverGlowEffect,  // Mouse-following glow
+  CursorFollow,     // Custom cursor
+  ScrollReveal,     // Physics-based scroll
+  Orbit,            // Circular motion
+  WaveList          // Wave stagger
+} from 'react-animation-kit/interactive'
 
 <Magnetic>
-  <div>Sticks to cursor</div>
+  <button>I follow your cursor!</button>
 </Magnetic>
-
-<Tilt3D>
-  <img src="card.jpg" alt="3D tilt effect" />
-</Tilt3D>
 ```
 
-## 🎨 Presets & Hooks
+## 🎨 Presets & Utilities
 
 ### Custom Easings
 
 ```tsx
-import { easings } from '@yourorg/motion/presets'
+import { easings } from 'react-animation-kit/presets'
 
 <FadeIn options={{ ease: easings.softOvershoot }}>
-  Custom easing
+  Smooth animation
 </FadeIn>
 
-// Available: smooth, softOvershoot, bounce, snap, decelerate, accelerate, standard
+// Available: smooth, softOvershoot, bounce, snap, decelerate, accelerate
 ```
 
-### Spring Configurations
+### Spring Presets
 
 ```tsx
-import { springs } from '@yourorg/motion/presets'
+import { springs } from 'react-animation-kit/presets'
 
 <SlideUp options={springs.bouncy}>
   Bouncy animation
@@ -262,14 +262,14 @@ import { springs } from '@yourorg/motion/presets'
 ### Accessibility Hook
 
 ```tsx
-import { useReducedMotion } from '@yourorg/motion/hooks'
+import { useReducedMotion } from 'react-animation-kit/hooks'
 
 function Component() {
   const prefersReduced = useReducedMotion()
   
   return (
     <FadeIn options={{ duration: prefersReduced ? 0.01 : 0.5 }}>
-      Respects user preferences
+      Respects user motion preferences
     </FadeIn>
   )
 }
@@ -278,8 +278,7 @@ function Component() {
 ### Viewport Detection
 
 ```tsx
-import { useInView } from '@yourorg/motion/hooks'
-import { useRef } from 'react'
+import { useInView } from 'react-animation-kit/hooks'
 
 function Component() {
   const ref = useRef(null)
@@ -297,16 +296,22 @@ function Component() {
 
 ## 🔧 Advanced Usage
 
-### Combining Animations
+### Page Transitions (Next.js)
 
 ```tsx
-<SlideUp
-  options={{ duration: 0.8 }}
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
->
-  Entrance + Hover + Tap
-</SlideUp>
+import { AnimatePresence } from 'framer-motion'
+import { PageFade } from 'react-animation-kit/animations'
+import { usePathname } from 'next/navigation'
+
+export default function Layout({ children }) {
+  const pathname = usePathname()
+  
+  return (
+    <AnimatePresence mode="wait">
+      <PageFade key={pathname}>{children}</PageFade>
+    </AnimatePresence>
+  )
+}
 ```
 
 ### Custom Element Type
@@ -317,32 +322,13 @@ function Component() {
 </FadeIn>
 ```
 
-### Page Transitions (Next.js)
+### Create Your Own
 
 ```tsx
-import { AnimatePresence } from 'framer-motion'
-import { PageFade } from '@yourorg/motion/animations'
+import { createAnimation } from 'react-animation-kit/utils'
 
-export default function Layout({ children }) {
-  const pathname = usePathname()
-  
-  return (
-    <AnimatePresence mode="wait">
-      <PageFade key={pathname}>
-        {children}
-      </PageFade>
-    </AnimatePresence>
-  )
-}
-```
-
-### Creating Custom Animations
-
-```tsx
-import { createAnimation } from '@yourorg/motion/utils'
-
-const MyCustomAnimation = createAnimation(
-  'MyCustomAnimation',
+const MyAnimation = createAnimation(
+  'MyAnimation',
   {
     hidden: { opacity: 0, rotate: -180 },
     visible: { opacity: 1, rotate: 0 }
@@ -350,46 +336,38 @@ const MyCustomAnimation = createAnimation(
   { duration: 1, type: 'spring' }
 )
 
-<MyCustomAnimation>
-  Custom animation
-</MyCustomAnimation>
+<MyAnimation>Custom animation</MyAnimation>
 ```
 
 ## 📊 Bundle Size
 
-- **Full library**: ~14-16KB gzipped
-- **Single animation**: ~0.5-1KB
-- **Tree-shakeable**: Only bundle what you use
-- **No runtime overhead**: Components are lightweight wrappers
+| Import | Size (gzipped) |
+|--------|---------------|
+| Single component | ~0.5-1KB |
+| Full library | ~14-16KB |
+| With tree-shaking | Only what you use |
 
-## 🌐 Next.js Support
+## 🌐 Framework Support
 
-All components work seamlessly with Next.js:
-
-```tsx
-// app/page.tsx
-import { FadeIn } from '@yourorg/motion/animations'
-
-export default function Page() {
-  return <FadeIn><h1>Next.js Page</h1></FadeIn>
-}
-```
-
-Components are already marked with `'use client'` so you don't need to add it yourself.
+- ✅ **Next.js** - App Router & Pages Router
+- ✅ **Vite** - Full support
+- ✅ **Create React App** - Works out of the box
+- ✅ **Remix** - SSR-safe
+- ✅ **Gatsby** - Compatible
 
 ## 📚 Requirements
 
 - React 18+
 - Framer Motion 10+
-- TypeScript 5+ (optional but recommended)
+- TypeScript 5+ (optional)
 
 ## 🤝 Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/Prashant8Khatiwada/animation-library/blob/main/CONTRIBUTING.md).
 
 ## 📄 License
 
-MIT © [Your Name]
+MIT © Prashant Khatiwada
 
 ## 🙏 Credits
 
@@ -397,8 +375,10 @@ Built with ❤️ using [Framer Motion](https://www.framer.com/motion/)
 
 ---
 
-**Total**: 142 components (132 animations + 10 interactive)  
-**Bundle**: ~14KB gzipped  
-**TypeScript**: 100% type-safe  
-**SSR**: ✅ Next.js compatible  
-**Accessibility**: ✅ Reduced motion support
+<div align="center">
+
+**[⭐ Star on GitHub](https://github.com/Prashant8Khatiwada/animation-library)** · **[📦 View on NPM](https://www.npmjs.com/package/react-animation-kit)** · **[🐛 Report Bug](https://github.com/Prashant8Khatiwada/animation-library/issues)**
+
+Made with React · Framer Motion · TypeScript
+
+</div>

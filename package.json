@@ -1,7 +1,7 @@
 {
-  "name": "@yourorg/motion",
-  "version": "0.1.0",
-  "description": "A lightweight, modular, and production-ready React/Next.js animation library built on Framer Motion",
+  "name": "react-animation-kit",
+  "version": "1.0.0",
+  "description": "🎨 Production-ready React animation library with 142 components built on Framer Motion. Lightweight, tree-shakeable, and perfect for modern web apps.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -12,10 +12,15 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./variants": {
-      "types": "./dist/variants/index.d.ts",
-      "import": "./dist/variants/index.js",
-      "require": "./dist/variants/index.cjs"
+    "./animations": {
+      "types": "./dist/animations/index.d.ts",
+      "import": "./dist/animations/index.js",
+      "require": "./dist/animations/index.cjs"
+    },
+    "./interactive": {
+      "types": "./dist/interactive/index.d.ts",
+      "import": "./dist/interactive/index.js",
+      "require": "./dist/interactive/index.cjs"
     },
     "./components": {
       "types": "./dist/components/index.d.ts",
@@ -58,17 +63,49 @@
   },
   "keywords": [
     "react",
-    "nextjs",
     "animation",
     "framer-motion",
     "motion",
-    "transitions",
+    "react-components",
     "ui",
-    "components",
-    "typescript"
+    "transitions",
+    "scroll-animations",
+    "page-transitions",
+    "interactive",
+    "gestures",
+    "hooks",
+    "typescript",
+    "nextjs",
+    "ssr",
+    "tree-shakeable",
+    "lightweight",
+    "entrance",
+    "exit",
+    "hover",
+    "tap",
+    "loading",
+    "accessibility",
+    "react-animation",
+    "web-animations",
+    "ui-animations",
+    "animation-library",
+    "component-library",
+    "react-hooks",
+    "modern-ui",
+    "user-interface",
+    "frontend",
+    "web-development"
   ],
-  "author": "Your Name",
+  "author": "Prashant Khatiwada <prashantkhatiwada554@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Prashant8Khatiwada/animation-library.git"
+  },
+  "homepage": "https://github.com/Prashant8Khatiwada/animation-library#readme",
+  "bugs": {
+    "url": "https://github.com/Prashant8Khatiwada/animation-library/issues"
+  },
   "peerDependencies": {
     "framer-motion": ">=10.0.0",
     "react": ">=18.0.0",
@@ -98,14 +135,14 @@
   },
   "size-limit": [
     {
-      "name": "Single variant (fadeIn)",
-      "path": "dist/variants/entrance/fade-in.js",
-      "limit": "5 KB"
+      "name": "Single animation component",
+      "path": "dist/animations/index.js",
+      "limit": "3 KB"
     },
     {
       "name": "Full library",
       "path": "dist/index.js",
-      "limit": "50 KB"
+      "limit": "20 KB"
     }
   ]
 }
