@@ -1,5 +1,5 @@
 {
-  "name": "react-animation-kit",
+  "name": "@khatiwadaprashant/react-animation-kit",
   "version": "1.0.0",
   "description": "🎨 Production-ready React animation library with 142 components built on Framer Motion. Lightweight, tree-shakeable, and perfect for modern web apps.",
   "type": "module",
