@@ -1,6 +1,8 @@
 export * from './variants'
 export * from './hooks'
 export * from './presets'
+export * from './components'
+export * from './utils'
 
-// Export types
-export type { Variants } from 'framer-motion'
+import type { Variants } from 'framer-motion'
+export type { Variants }

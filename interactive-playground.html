@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Animations Playground</title>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "framer-motion": "https://esm.sh/framer-motion@10.16.16"
+      }
+    }
+  </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        #root {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            color: #1a1a1a;
+        }
+
+        p.subtitle {
+            margin-bottom: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h2 {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-size: 1.2rem;
+            color: #888;
+            margin: 0;
+        }
+
+        .demo-box {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.3);
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="module">
+        import React, { useState, useRef, useEffect } from 'react';
+        import ReactDOM from 'react-dom/client';
+        import { motion, useMotionValue, useSpring, useTransform, useAnimation, useMotionTemplate } from 'framer-motion';
+
+        // --- Components Implementation (Inlined for Playground) ---
+
+        function Magnetic({ children, stiffness = 150, damping = 15, mass = 0.1 }) {
+            const ref = useRef(null);
+            const [position, setPosition] = useState({ x: 0, y: 0 });
+
+            const handleMouse = (e) => {
+                const { clientX, clientY } = e;
+                const { height, width, left, top } = ref.current.getBoundingClientRect();
+                const middleX = clientX - (left + width / 2);
+                const middleY = clientY - (top + height / 2);
+                setPosition({ x: middleX, y: middleY });
+            };
+
+            const reset = () => setPosition({ x: 0, y: 0 });
+
+            return (
+                <motion.div
+                    ref={ref}
+                    onMouseMove={handleMouse}
+                    onMouseLeave={reset}
+                    animate={{ x: position.x, y: position.y }}
+                    transition={{ type: 'spring', stiffness, damping, mass }}
+                >
+                    {children}
+                </motion.div>
+            );
+        }
+
+        function Tilt3D({ children, stiffness = 150, damping = 15 }) {
+            const x = useMotionValue(0);
+            const y = useMotionValue(0);
+            const rotateX = useTransform(useSpring(y, { stiffness, damping }), [-0.5, 0.5], [15, -15]);
+            const rotateY = useTransform(useSpring(x, { stiffness, damping }), [-0.5, 0.5], [-15, 15]);
+
+            function handleMouse(e) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const width = rect.width;
+                const height = rect.height;
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                const xPct = mouseX / width - 0.5;
+                const yPct = mouseY / height - 0.5;
+                x.set(xPct);
+                y.set(yPct);
+            }
+
+            return (
+                <motion.div
+                    onMouseMove={handleMouse}
+                    onMouseLeave={() => { x.set(0); y.set(0); }}
+                    style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                >
+                    <div style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}>
+                        {children}
+                    </div>
+                </motion.div>
+            );
+        }
+
+        function ElasticScale({ children }) {
+            return (
+                <motion.div
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                    {children}
+                </motion.div>
+            );
+        }
+
+        function DraggableSnap({ children }) {
+            return (
+                <motion.div
+                    drag
+                    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                    dragElastic={0.2}
+                    whileDrag={{ scale: 1.1, cursor: "grabbing" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                    {children}
+                </motion.div>
+            );
+        }
+
+        function Shake({ children }) {
+            const controls = useAnimation();
+            return (
+                <motion.div
+                    animate={controls}
+                    onClick={() => controls.start({
+                        x: [0, -10, 10, -10, 10, 0],
+                        transition: { duration: 0.4 }
+                    })}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    {children}
+                </motion.div>
+            );
+        }
+
+        function HoverGlow({ children }) {
+            const mouseX = useMotionValue(0);
+            const mouseY = useMotionValue(0);
+
+            function handleMouseMove({ currentTarget, clientX, clientY }) {
+                const { left, top } = currentTarget.getBoundingClientRect();
+                mouseX.set(clientX - left);
+                mouseY.set(clientY - top);
+            }
+
+            return (
+                <div
+                    className="group"
+                    onMouseMove={handleMouseMove}
+                    style={{ position: 'relative', padding: '2px', borderRadius: '22px', overflow: 'hidden' }}
+                >
+                    <motion.div
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(102, 126, 234, 0.8), transparent 80%)`,
+                            opacity: 0,
+                        }}
+                        whileHover={{ opacity: 1 }}
+                    />
+                    <div style={{ position: 'relative', background: 'white', borderRadius: '20px' }}>
+                        {children}
+                    </div>
+                </div>
+            );
+        }
+
+        function Orbit({ children }) {
+            return (
+                <div style={{ position: 'relative', width: '100px', height: '100px' }}>
+                    <motion.div
+                        style={{ width: '100%', height: '100%', position: 'absolute' }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    >
+                        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, -50%)' }}>
+                            <motion.div animate={{ rotate: -360 }} transition={{ duration: 5, repeat: Infinity, ease: "linear" }}>
+                                {children}
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                    <div style={{ position: 'absolute', inset: '20%', background: '#eee', borderRadius: '50%' }} />
+                </div>
+            );
+        }
+
+        // --- App ---
+
+        function App() {
+            return (
+                <div>
+                    <h1>✨ Interactive Playground</h1>
+                    <p className="subtitle">Physics-based animations powered by Framer Motion</p>
+
+                    <div className="grid">
+                        <section>
+                            <h2>Magnetic</h2>
+                            <Magnetic>
+                                <div className="demo-box">Hover Me</div>
+                            </Magnetic>
+                        </section>
+
+                        <section>
+                            <h2>Tilt 3D</h2>
+                            <Tilt3D>
+                                <div className="demo-box" style={{ background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)' }}>
+                                    Tilt Me
+                                </div>
+                            </Tilt3D>
+                        </section>
+
+                        <section>
+                            <h2>Elastic Scale</h2>
+                            <ElasticScale>
+                                <div className="demo-box" style={{ background: '#FFE66D', color: '#333' }}>
+                                    Scale
+                                </div>
+                            </ElasticScale>
+                        </section>
+
+                        <section>
+                            <h2>Draggable Snap</h2>
+                            <DraggableSnap>
+                                <div className="demo-box" style={{ background: '#1A535C' }}>
+                                    Drag Me
+                                </div>
+                            </DraggableSnap>
+                        </section>
+
+                        <section>
+                            <h2>Shake on Click</h2>
+                            <Shake>
+                                <div className="demo-box" style={{ background: '#FF6B6B' }}>
+                                    Click Me
+                                </div>
+                            </Shake>
+                        </section>
+
+                        <section>
+                            <h2>Hover Glow</h2>
+                            <HoverGlow>
+                                <div className="demo-box" style={{ background: '#2C3E50', borderRadius: '20px' }}>
+                                    Glow
+                                </div>
+                            </HoverGlow>
+                        </section>
+
+                        <section>
+                            <h2>Orbit</h2>
+                            <Orbit>
+                                <div style={{ width: 20, height: 20, background: '#667eea', borderRadius: '50%' }} />
+                            </Orbit>
+                        </section>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
